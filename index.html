@@ -1,0 +1,115 @@
+<html>
+<head>
+  <title>dvorak simulator</title>
+  <meta name='description' content='it/'s a textbox where you can type using a dvorak keyboard layout'>
+
+  <script src='mousetrap.min.js' type='text/javascript'></script>
+
+  <script>
+    function init () {
+      var textarea = document.getElementById('dvorak-mode'),
+      capitalA = 65,
+      capitalZ = 90,
+      lowerA = 97,
+      lowerZ = 122,
+      period = 46,
+      semicolon = 59,
+      slash = 47,
+      comma = 44,
+      punctuation = [comma, semicolon, slash, period];
+
+      var lookup = {
+        'KeyA': 'a',
+        'KeyB': 'x',
+        'KeyC': 'j',
+        'KeyD': 'e',
+        'KeyE': '.',
+        'KeyF': 'u',
+        'KeyG': 'i',
+        'KeyH': 'd',
+        'KeyI': 'c',
+        'KeyJ': 'h',
+        'KeyK': 't',
+        'KeyL': 'n',
+        'KeyM': 'm',
+        'KeyN': 'b',
+        'KeyO': 'r',
+        'KeyP': 'l',
+        'KeyQ': '\'',
+        'KeyR': 'p',
+        'KeyS': 'o',
+        'KeyT': 'y',
+        'KeyU': 'g',
+        'KeyV': 'k',
+        'KeyW': ',',
+        'KeyX': 'q',
+        'KeyY': 'f',
+        'KeyZ': ';',
+        'Key.': 'v',
+        'Key;': 's',
+        'Key/': 'z',
+        'Key,': 'w'
+      };
+
+      inclusiveRange(lowerA, lowerZ, bindChar);
+      inclusiveRange(capitalA, capitalZ, bindChar);
+      punctuation.forEach(bindChar);
+
+      function bindChar(charCode) {
+        Mousetrap(textarea).bind(String.fromCharCode(charCode), write);
+      }
+
+      function write (event, char) {
+       var capitalize = event.shiftKey;
+
+       event.preventDefault();
+       _write(event.charCode, capitalize);
+     }
+
+     function debug(event, char) {
+      console.log(char, event);
+     }
+
+     function convert(charCode) {
+       return lookup[keyCode(charCode)];
+     }
+
+     function _write(charCode, capitalize) {
+      var value = convert(charCode)
+
+      if(capitalize) {
+        value = value.toUpperCase();
+      }
+
+      textarea.value += value;
+    }
+  }
+
+  function keyCode(charCode) {
+   return 'Key' + String.fromCharCode(charCode).toUpperCase();
+ }
+
+ function generateKeyNames() {
+  inclusiveRange(capitalA, capitalZ, keyCode);
+  punctuation.forEach(keyC)
+}
+
+function inclusiveRange(start, end, callback) {
+  for(i = start; i <= end; i++) {
+    callback(i);
+  }
+}
+</script>
+</head>
+
+<body onload='init()'>
+  <div style='text-align: center;'>
+    <img src="dvorak-layout.gif" alt="layout of a dvorak keyboard">
+
+    <br>
+
+    <textarea id='dvorak-mode' cols='80' rows='24' placeholder='type here. not all symbols work.'>
+    </textarea>
+  </div>
+</body>
+</html>
