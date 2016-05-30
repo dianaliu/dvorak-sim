@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title>mechanical keyboard simulator</title>
+  <meta name="description" content="mechanical keyboard simulator">
+  <script type='text/javascript'>
+
+    function init() {
+      var preload = new Audio('mk.mov')
+      preload.volume = 0;
+      preload.play();
+
+      // window.simulator = document.getElementById('sim');
+      window.simulator = document.getElementById('keyboard');
+    }
+
+    function sim() {
+      if(!window.simulator.className) {
+        window.simulator.className = 'pulse';
+      }
+
+      new Audio('mk.mov').play('mk.mov').then(function() {
+        setTimeout(function() {
+          if(window.simulator.className) {
+            window.simulator.className = '';
+          }
+        }, 350);
+      });
+    }
+  </script>
+
+  <style>
+    /*
+     * Pulse animation
+    */
+    @-webkit-keyframes pulse {
+        0% { -webkit-transform: scale(1); }
+        50% { -webkit-transform: scale(1.1); }
+        100% { -webkit-transform: scale(1); }
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    .pulse {
+        -webkit-animation-name: pulse;
+        -webkit-animation-iteration-count: 1;
+        animation-name: pulse;
+        animation-duration: 300ms;
+        transform-origin:70% 70%;
+        animation-timing-function: linear;
+    }
+  </style>
+</head>
+
+<body onload='init()' style="text-align:center">
+  <img src="mech-keyboard.png" alt="mechanical keyboard" id='keyboard'>
+
+  <br>
+
+  <textarea id='sim' onkeydown='sim()' cols="80" rows="24" placeholder="turn on your sound and type here">
+  </textarea>
+
+  <br>
+
+  <footer>
+    also available, <a href="/dvorak-sim">dvorak keyboard simulator</a>
+  </footer>
+</body>
+</html>
